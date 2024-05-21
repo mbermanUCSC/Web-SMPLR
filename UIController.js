@@ -12,11 +12,23 @@ const UIController = (audioProcessor) => {
         stopButton: document.getElementById('stop')
     };
 
+    // function to reset the UI elements
+    const resetUI = () => {
+        elements.fileInput.value = '';
+        elements.sampleRateSlider.value = 44100;
+        elements.sampleRateValueLabel.textContent = '44100 Hz';
+        elements.bitsSlider.value = 16;
+        elements.bitsValueLabel.textContent = '16 Bits';
+        elements.pitchSlider.value = 0;
+        elements.pitchValueLabel.textContent = '0';
+    }
+
     const attachEventListeners = () => {
         elements.fileInput.addEventListener('change', (event) => {
             const file = event.target.files[0];
             if (file) {
                 audioProcessor.loadFile(file);
+                resetUI();
             }
         });
 
