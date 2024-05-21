@@ -13,8 +13,9 @@
     <header>
         <h1>WEB-SMPLR</h1>
     </header>
-    <section class="sampler" id="sampler">
 
+    <section class="sampler" id="sampler">
+        <!-- Screen -->
         <section class="display">
             <!-- canvas (sampler screen) -->
             <canvas id="screen"></canvas>
@@ -29,23 +30,23 @@
             
         </section>
 
+        <!-- Controls -->
         <section class="controls" id="controls">
-            
-            <!-- Sample Rate Slider -->
+            <!-- sample rate slider -->
             <div class="slider-container">
                 <input type="range" id="rate" min="3000" max="44100" step="1" value="44100">
                 <label for="rate">Rate</label>
                 <label for="rate" class="value">44100 Hz</label>
             </div>
         
-            <!-- Bits Slider -->
+            <!-- bit depth slider -->
             <div class="slider-container">
                 <input type="range" id="bits" min="2" max="16" step="1" value="32">
                 <label for="bits">Bits</label>
                 <label for="bits" class="value">16 Bits</label>
             </div>
             
-            <!-- Pitch Slider -->
+            <!-- detune slider -->
             <div class="slider-container">
                 <input type="range" id="detune" min="-12" max="12" step="1" value="0">
                 <label for="detune">Pitch</label>
@@ -64,6 +65,7 @@
 
         </div>
 
+        <!-- Volume + Loop -->
         <section class="sub-controls">
             <div class="settings-container">
                 <label for="volume">Volume</label>
@@ -75,7 +77,8 @@
                 <input type="checkbox" id="loop">
             </div>   
         </section>
-
+        
+        <!-- Playback -->
         <section class="controls">
             <!-- buttons -->
             <div class="button-container">

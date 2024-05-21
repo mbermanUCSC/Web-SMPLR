@@ -197,7 +197,7 @@ const UIController = (audioProcessor) => {
             elements.waveform.style.display = 'none';
             elements.settings.style.display = 'none';
             
-            elements.colorWheel.value = '#e7e7e7;'; // default sample wheel color
+            elements.colorWheel.value = '#e7e7e7'; // default sample wheel color
         }
     };
 };
