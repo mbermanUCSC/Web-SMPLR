@@ -106,20 +106,22 @@ const UIController = (audioProcessor) => {
         elements.sampleRateSlider.addEventListener('change', () => {
             const newRate = parseFloat(elements.sampleRateSlider.value);
             audioProcessor.updateSampleRate(newRate);
-            audioProcessor.stopPlayback();
-            audioProcessor.startPlayback();
         });
 
         elements.bitsSlider.addEventListener('input', () => {
             const newBits = parseFloat(elements.bitsSlider.value);
-            elements.bitsValueLabel.textContent = newBits + ' Bits';
+            // add leading 0s to the bits value if it's less than 10
+            if (newBits < 10) {
+                elements.bitsValueLabel.textContent = '0' + newBits + ' Bits';
+            }
+            else{
+                elements.bitsValueLabel.textContent = newBits + ' Bits';
+            }
         });
 
         elements.bitsSlider.addEventListener('change', () => {
             const newBits = parseFloat(elements.bitsSlider.value);
             audioProcessor.changeBitDepth(newBits);
-            audioProcessor.stopPlayback();
-            audioProcessor.startPlayback();
         });
 
         elements.pitchSlider.addEventListener('input', () => {
@@ -130,8 +132,6 @@ const UIController = (audioProcessor) => {
         elements.pitchSlider.addEventListener('change', () => {
             const newPitch = parseFloat(elements.pitchSlider.value);
             audioProcessor.updatePitch(newPitch);
-            audioProcessor.stopPlayback();
-            audioProcessor.startPlayback();
         });
 
         elements.playButton.addEventListener('click', () => {

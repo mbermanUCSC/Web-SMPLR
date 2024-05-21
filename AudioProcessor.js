@@ -11,6 +11,8 @@ class AudioProcessor {
         this.defaultSampleRate = 44100; // CD Quality
         this.defaultBitDepth = 16; // CD Quality bit depth
         this.currentPitch = 1.0;
+
+        this.startTime = 0;
     }
 
     loadFile(file) {
@@ -113,16 +115,19 @@ class AudioProcessor {
 
         this.currentPitch = pitchFactor;
         this.applyEffects();
+        this.restartPlayback();
     }
 
     updateSampleRate(newRate) {
         this.currentSampleRate = newRate;
         this.applyEffects();
+        this.restartPlayback();
     }
 
     changeBitDepth(newBitDepth) {
         this.currentBitDepth = newBitDepth;
         this.applyEffects();
+        this.restartPlayback();
     }
 
     applyEffects() {
@@ -132,8 +137,6 @@ class AudioProcessor {
         const resampledBuffer = this.resampleAndChangeBitDepth(this.originalBuffer, this.currentSampleRate, this.currentBitDepth);
         this.modifiedBuffer = resampledBuffer;
         this.updateUI(this.modifiedBuffer);
-        // this.stopPlayback();
-        // this.startPlayback();
     }
 
     resampleAndChangeBitDepth(buffer, targetSampleRate, newBitDepth) {
@@ -160,18 +163,54 @@ class AudioProcessor {
         }
 
         return newBuffer;
+    }    
+
+
+    // calculates current position in the audio buffer based on the current time
+    getCurrentPosition() {
+        if (this.sourceNode) {
+            const elapsedTime = this.audioContext.currentTime - this.startTime;
+            const currentSample = elapsedTime * this.currentSampleRate;
+            const bufferLength = this.modifiedBuffer.length;
+            if (currentSample < bufferLength) {
+                return currentSample;
+            }
+        }
+        return -1;
     }
 
-    startPlayback() {
+    // used when applying effects to the audio buffer
+    restartPlayback() {
+        // get current position in the audio buffer
+        const currentPosition = this.getCurrentPosition();
+        // fraction of the buffer that has been played
+        if (currentPosition >= 0) {
+            this.startPlayback(currentPosition);
+        }
+    }
+
+    
+
+
+    startPlayback(buffer_position_samples = 0) {
         if (this.sourceNode) {
             this.sourceNode.disconnect();
         }
+
+        if (!this.modifiedBuffer) return; // if nothing to play, return
+
         this.sourceNode = this.audioContext.createBufferSource();
         this.sourceNode.buffer = this.modifiedBuffer;
         this.sourceNode.playbackRate.value = this.currentPitch;
-        this.sourceNode.connect(this.gainNode); // connect source to gain node
-        this.sourceNode.start();
+        this.sourceNode.connect(this.gainNode);
+    
+        // convert buffer position in samples to time in seconds
+        const buffer_position_seconds = buffer_position_samples / this.modifiedBuffer.sampleRate;
+    
+        this.sourceNode.start(0, buffer_position_seconds);
+        this.startTime = this.audioContext.currentTime - buffer_position_seconds; // adjust startTime accordingly
     }
+    
 
     stopPlayback() {
         if (this.sourceNode) {
@@ -183,7 +222,7 @@ class AudioProcessor {
     }
 
     updateVolume(volumeLevel) {
-        this.gainNode.gain.value = volumeLevel; // Set the volume level
+        this.gainNode.gain.value = volumeLevel; 
     }
 
     toggleLoop() {
