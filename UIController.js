@@ -146,7 +146,12 @@ const UIController = (audioProcessor) => {
         elements.volumeSlider.addEventListener('input', () => {
             const newVolume = parseFloat(elements.volumeSlider.value);
             audioProcessor.updateVolume(newVolume);
-            elements.volumeValueLabel.textContent = Math.round(newVolume * 100) + '%';
+            // add leading 0s to the volume value if it's less than 10
+            if (newVolume < 0.1) {
+                elements.volumeValueLabel.textContent = '0' + Math.round(newVolume * 100) + '%';
+            } else {
+                elements.volumeValueLabel.textContent = Math.round(newVolume * 100) + '%';
+            }
         });
 
         // loop button
