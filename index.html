@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SAMPLER</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <h1>SAMPLER</h1>
+    </header>
+    <section class="sampler">
+
+        <section class="display">
+            <!-- canvas (sampler screen) -->
+            <canvas id="screen"></canvas>
+
+            <!-- customizable load button (⏏︎) -->
+            <label for="load" class="custom-file-upload">File</label>
+            <input type="file" id="load" accept="audio/*" style="display:none;">
+            
+            <!-- customizable load button (⏏︎) -->
+            <label id="save" class="custom-file-download">Save</label>
+            <!-- <input type="file" id="save" accept="audio/*" style="display:none;"> -->
+            
+        </section>
+
+        <section class="controls">
+            <!-- Sample Rate Slider -->
+            <div class="slider-container">
+                <input type="range" id="rate" min="3000" max="44100" step="1" value="44100">
+                <label for="rate">Rate</label>
+                <label for="rate" class="value">44100 Hz</label>
+            </div>
+        
+            <!-- Bits Slider -->
+            <div class="slider-container">
+                <input type="range" id="bits" min="2" max="16" step="1" value="32">
+                <label for="bits">Bits</label>
+                <label for="bits" class="value">16 Bits</label>
+            </div>
+            
+            <!-- Pitch Slider -->
+            <div class="slider-container">
+                <input type="range" id="detune" min="-12" max="12" step="1" value="0">
+                <label for="detune">Pitch</label>
+                <label for="detune" class="value">0</label>
+            </div>
+
+            
+        </section>
+
+        <section class="controls">
+            <!-- buttons -->
+            <div class="button-container">
+                <button id="play">▶</button>
+                <button id="stop">||</button>
+            </div>
+        </section>
+    </section>
+        
+    <!-- script -->
+    <script src="AudioProcessor.js"></script>
+    <script src="UIController.js"></script>
+    
+
+</body>
+</html>
