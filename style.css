@@ -21,9 +21,9 @@ body {
     margin-right: 20%;
     background-color: #b4b4b4;
 
-    min-width: 60%;
+    /* min-width: 60%; */
     min-height: 90%;
-    width: 90%;
+    /* width: 90%; */
     height: 90%;
 }
 
@@ -137,10 +137,3 @@ button {
     font-size: 10px;
 }
 
-/* responseive media for large screens */
-@media (min-width: 1024px) {
-    .sampler {
-        margin-left: 60%;
-        margin-right: 60%;
-    }
-}
