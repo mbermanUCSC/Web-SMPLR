@@ -13,11 +13,12 @@
     <header>
         <h1>WEB-SMPLR</h1>
     </header>
-    <section class="sampler">
+    <section class="sampler" id="sampler">
 
         <section class="display">
             <!-- canvas (sampler screen) -->
             <canvas id="screen"></canvas>
+            <canvas id="waveform"></canvas>
 
             <!-- customizable load button (⏏︎) -->
             <label for="load" class="custom-file-upload">File</label>
@@ -28,7 +29,8 @@
             
         </section>
 
-        <section class="controls">
+        <section class="controls" id="controls">
+            
             <!-- Sample Rate Slider -->
             <div class="slider-container">
                 <input type="range" id="rate" min="3000" max="44100" step="1" value="44100">
@@ -49,8 +51,29 @@
                 <label for="detune">Pitch</label>
                 <label for="detune" class="value">0</label>
             </div>
+        </section>
 
-            
+
+        <!-- Settings Tab -->
+        <div class="settings" id="settings">
+            <!-- color picker -->
+            <div class="settings-container">
+                <label for="color">Color</label>
+                <input type="color" id="color" value="#000000">
+            </div>  
+
+        </div>
+
+        <section class="sub-controls">
+            <div class="settings-container">
+                <label for="volume">Volume</label>
+                <input type="range" id="volume" min="0" max="1" step="0.01" value="1">
+                <label for="volume" class="value">100%</label>
+            </div>
+            <div class="settings-container">
+                <label for="loop">Loop</label>
+                <input type="checkbox" id="loop">
+            </div>   
         </section>
 
         <section class="controls">
@@ -59,6 +82,10 @@
                 <button id="play">▶</button>
                 <button id="stop">||</button>
             </div>
+        </section>
+
+        <section class="sampler-footer">
+            <button id="settings_toggle"></button>
         </section>
     </section>
         

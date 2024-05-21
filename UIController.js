@@ -1,5 +1,7 @@
+
 const UIController = (audioProcessor) => {
     const elements = {
+        Sampler: document.getElementById('sampler'),
         fileInput: document.getElementById('load'),
         fileSave: document.getElementById('save'),
         sampleRateSlider: document.getElementById('rate'),
@@ -9,7 +11,16 @@ const UIController = (audioProcessor) => {
         pitchSlider: document.getElementById('detune'),
         pitchValueLabel: document.querySelector('label[for="detune"].value'),
         playButton: document.getElementById('play'),
-        stopButton: document.getElementById('stop')
+        stopButton: document.getElementById('stop'),
+        volumeSlider: document.getElementById('volume'),
+        volumeValueLabel: document.querySelector('label[for="volume"].value'),
+        loopButton: document.getElementById('loop'),
+        canvas: document.getElementById('screen'),
+        waveform: document.getElementById('waveform'),
+        settings_toggle: document.getElementById('settings_toggle'),
+        controls: document.getElementById('controls'),
+        settings: document.getElementById('settings'),
+        colorWheel : document.getElementById('color')
     };
 
     // function to reset the UI elements
@@ -23,6 +34,45 @@ const UIController = (audioProcessor) => {
         elements.pitchValueLabel.textContent = '0';
     }
 
+    // function to display the waveform (draw to waveform canvas)
+    const displayWaveform = (buffer) => {
+        const canvas = elements.waveform;
+        const ctx = canvas.getContext('2d');
+        const width = canvas.width;
+        const height = canvas.height;
+        const data = buffer.getChannelData(0);
+        const step = Math.ceil(data.length / width);
+        const amp = height / 2;
+    
+        ctx.fillStyle = 'rgb(143, 143, 143)';
+        ctx.fillRect(0, 0, width, height);
+        ctx.lineWidth = 2;
+        ctx.strokeStyle = 'rgb(0, 0, 0)';
+        ctx.beginPath();
+    
+        // Simplifying the drawing process by using a single path
+        for (let i = 0; i < width; i++) {
+            let min = 1.0;
+            let max = -1.0;
+            const sampleStart = i * step;
+            const sampleEnd = sampleStart + step;
+    
+            for (let j = sampleStart; j < sampleEnd; j++) {
+                const datum = data[j];
+                if (datum < min) min = datum;
+                if (datum > max) max = datum;
+            }
+    
+            // Drawing lines from the minimum to the maximum value for this slice of the waveform
+            const yMin = amp * (1 + min);
+            const yMax = amp * (1 + max);
+            ctx.moveTo(i, yMin);
+            ctx.lineTo(i, yMax);
+        }
+        ctx.stroke();
+    };
+
+    
     const attachEventListeners = () => {
         elements.fileInput.addEventListener('change', (event) => {
             const file = event.target.files[0];
@@ -91,11 +141,63 @@ const UIController = (audioProcessor) => {
         elements.stopButton.addEventListener('click', () => {
             audioProcessor.stopPlayback();
         });
+
+        // volume slider
+        elements.volumeSlider.addEventListener('input', () => {
+            const newVolume = parseFloat(elements.volumeSlider.value);
+            audioProcessor.updateVolume(newVolume);
+            elements.volumeValueLabel.textContent = Math.round(newVolume * 100) + '%';
+        });
+
+        // loop button
+        elements.loopButton.addEventListener('click', () => {
+            audioProcessor.toggleLoop();
+        });
+
+
+        // when canvas is clicked
+        elements.canvas.addEventListener('click', () => {
+            elements.canvas.style.display = 'none';
+            elements.waveform.style.display = 'block';
+            if (audioProcessor.modifiedBuffer){
+                displayWaveform(audioProcessor.modifiedBuffer);
+            }
+        });
+
+        // when waveform is clicked
+        elements.waveform.addEventListener('click', () => {
+            elements.waveform.style.display = 'none';
+            elements.canvas.style.display = 'block';
+        });
+
+        // when settings button is clicked, turn on/off the settings panel
+        elements.settings_toggle.addEventListener('click', () => {
+            if (elements.controls.style.display === 'none') {
+                elements.controls.style.display = 'flex';
+                elements.settings.style.display = 'none';
+            } else {
+                elements.controls.style.display = 'none';
+                elements.settings.style.display = 'grid';
+            }
+        });
+
+        // set the background of the sampler to the color selected by the user
+        elements.colorWheel.addEventListener('input', () => {
+            const color = elements.colorWheel.value;
+            elements.Sampler.style.backgroundColor = color;
+        });
+        
     };
 
     return {
         init: () => {
             attachEventListeners();
+
+            // initially turn off the waveform display and sliders
+            elements.waveform.style.display = 'none';
+            elements.settings.style.display = 'none';
+            
+            elements.colorWheel.value = '#e7e7e7;'; // default sample wheel color
         }
     };
 };
@@ -103,6 +205,7 @@ const UIController = (audioProcessor) => {
 const audioProcessor = new AudioProcessor();
 
 function initializeCanvas() {
+    // set canvas to "No file loaded"
     const canvas = document.getElementById('screen');
     if (canvas.getContext) {
         const ctx = canvas.getContext('2d');
@@ -112,6 +215,17 @@ function initializeCanvas() {
         ctx.fillStyle = '#000000'; // Set text color
         ctx.textAlign = 'center'; // Align text to the center of the canvas
         ctx.fillText("No file loaded", canvas.width / 2, canvas.height / 2); // Draw text in the center
+    }
+    // set waveform to "No waveform to display"
+    const waveform = document.getElementById('waveform');
+    if (waveform.getContext) {
+        const ctx = waveform.getContext('2d');
+        ctx.clearRect(0, 0, waveform.width, waveform.height); // Clear the canvas
+        
+        ctx.font = '16px "Press Start 2P"'; // Set the font, using the Press Start 2P font
+        ctx.fillStyle = '#000000'; // Set text color
+        ctx.textAlign = 'center'; // Align text to the center of the canvas
+        ctx.fillText("No waveform", waveform.width / 2, waveform.height / 2); // Draw text in the center
     }
 }
 

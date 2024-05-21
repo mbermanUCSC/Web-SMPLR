@@ -4,6 +4,8 @@ class AudioProcessor {
         this.originalBuffer = null;
         this.modifiedBuffer = null;
         this.sourceNode = null;
+        this.gainNode = this.audioContext.createGain(); // for volume control
+        this.gainNode.connect(this.audioContext.destination);
         this.filename = null;
         // Default values
         this.defaultSampleRate = 44100; // CD Quality
@@ -167,9 +169,8 @@ class AudioProcessor {
         this.sourceNode = this.audioContext.createBufferSource();
         this.sourceNode.buffer = this.modifiedBuffer;
         this.sourceNode.playbackRate.value = this.currentPitch;
-        this.sourceNode.connect(this.audioContext.destination);
+        this.sourceNode.connect(this.gainNode); // connect source to gain node
         this.sourceNode.start();
-        //console.log('Playback started at pitch: ' + this.currentPitch);
     }
 
     stopPlayback() {
@@ -178,6 +179,16 @@ class AudioProcessor {
             this.sourceNode.disconnect();
             this.sourceNode = null;
             //console.log('Playback stopped');
+        }
+    }
+
+    updateVolume(volumeLevel) {
+        this.gainNode.gain.value = volumeLevel; // Set the volume level
+    }
+
+    toggleLoop() {
+        if (this.sourceNode) {
+            this.sourceNode.loop = !this.sourceNode.loop;
         }
     }
 
