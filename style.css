@@ -22,7 +22,7 @@ body {
     background-color: #b4b4b4;
 
     min-width: 60%;
-    max-width: 100%;
+    min-height: 90%;
 }
 
 /* Display */
