@@ -97,7 +97,7 @@ function initializeCanvas() {
         ctx.clearRect(0, 0, canvas.width, canvas.height); // Clear the canvas
         
         ctx.font = '16px "Press Start 2P"'; // Set the font, using the Press Start 2P font
-        ctx.fillStyle = '#ffffff'; // Set text color
+        ctx.fillStyle = '#000000'; // Set text color
         ctx.textAlign = 'center'; // Align text to the center of the canvas
         ctx.fillText("No file loaded", canvas.width / 2, canvas.height / 2); // Draw text in the center
     }
