@@ -13,6 +13,7 @@ body {
 
 .sampler{
     margin-top: 20px;
+    margin-bottom: 20px;
     padding-top: 20px;
     padding-bottom: 20px;
     border: 3px solid #35353556;
@@ -124,7 +125,7 @@ input[type="range"]::-webkit-slider-thumb {
     margin-top: 40px;
 }
 
-.controls button {
+.button-container button {
     padding: 10px 20px;
     cursor: pointer;
     background-color: #f0f0f0;
@@ -132,9 +133,10 @@ input[type="range"]::-webkit-slider-thumb {
     margin: 0 10px;
     /* use font */
     font-family: 'Press Start 2P', monospace;
-    width: 50px;
-    height: 30px;
+    width: 100px;
+    height: 50px;
     font-size: 10px;
+    text-align: center;
 }
 
 
@@ -190,4 +192,11 @@ input[type="checkbox"] {
     text-align: center;
     margin-top: 50px;
     justify-content: center;
+}
+
+/* for small devices responsive media */
+@media only screen and (max-width: 600px) {
+    .sampler {
+        width: 90%;
+    }   
 }
