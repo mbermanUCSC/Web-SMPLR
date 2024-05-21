@@ -136,3 +136,11 @@ button {
     height: 50px;
     font-size: 10px;
 }
+
+/* responseive media for large screens */
+@media (min-width: 1024px) {
+    .sampler {
+        margin-left: 60%;
+        margin-right: 60%;
+    }
+}
