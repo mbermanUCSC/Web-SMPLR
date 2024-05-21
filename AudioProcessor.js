@@ -16,6 +16,8 @@ class AudioProcessor {
     }
 
     loadFile(file) {
+        this.filename = null;
+        this.currentPitch = 1.0;
         this.stopPlayback();
         const reader = new FileReader();
         reader.onload = (e) => this.decodeAudio(e.target.result);
