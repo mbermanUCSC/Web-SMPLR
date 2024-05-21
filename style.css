@@ -175,11 +175,13 @@ input[type="checkbox"] {
 .sampler-footer button {
     padding: 5px 20px;
     margin-left: 20px;
-    background-color: rgba(0, 0, 0, 0.177);
+    background-color: rgba(0, 0, 0, 0.7);
     width: 20px;
     height: 15px;
     text-align: center;
     border-color: #3535353e;
+    border-radius: 50px;
+    cursor: pointer;
 }
 
 .settings {
