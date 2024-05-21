@@ -14,7 +14,7 @@ const UIController = (audioProcessor) => {
         stopButton: document.getElementById('stop'),
         volumeSlider: document.getElementById('volume'),
         volumeValueLabel: document.querySelector('label[for="volume"].value'),
-        loopButton: document.getElementById('loop'),
+        // loopButton: document.getElementById('loop'),
         canvas: document.getElementById('screen'),
         waveform: document.getElementById('waveform'),
         settings_toggle: document.getElementById('settings_toggle'),
@@ -155,9 +155,9 @@ const UIController = (audioProcessor) => {
         });
 
         // loop button
-        elements.loopButton.addEventListener('click', () => {
-            audioProcessor.toggleLoop();
-        });
+        // elements.loopButton.addEventListener('click', () => {
+        //     audioProcessor.toggleLoop();
+        // });
 
 
         // when canvas is clicked

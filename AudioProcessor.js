@@ -227,11 +227,11 @@ class AudioProcessor {
         this.gainNode.gain.value = volumeLevel; 
     }
 
-    toggleLoop() {
-        if (this.sourceNode) {
-            this.sourceNode.loop = !this.sourceNode.loop;
-        }
-    }
+    // toggleLoop() {
+    //     if (this.sourceNode) {
+    //         this.sourceNode.loop = !this.sourceNode.loop;
+    //     }
+    // }
 
     updateUI(buffer) {
         const canvas = document.getElementById('screen');
