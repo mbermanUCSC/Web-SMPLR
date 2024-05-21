@@ -176,9 +176,10 @@ input[type="checkbox"] {
     padding: 5px 20px;
     margin-left: 20px;
     background-color: rgba(0, 0, 0, 0.177);
-    width: 50px;
-    height: 25px;
+    width: 20px;
+    height: 15px;
     text-align: center;
+    border-color: #3535353e;
 }
 
 .settings {
